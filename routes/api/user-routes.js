@@ -50,6 +50,23 @@ router.post('/', (req, res) => {
         });
 });
 
+// query operation route
+router.post('/login', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    }).then(dbUserData => {
+        if (!dbUserData) {
+            res.status(400).json({ message: 'No user with that email address!' });
+            return;
+        }
+        res.json({ user: dbUserData });
+
+        // verify the user
+    });
+});
+
 // PUT /api/users/1
 router.put('/:id', (req, res) => {
     User.update(req.body, {
